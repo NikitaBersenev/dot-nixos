@@ -1,0 +1,9 @@
+# Copy to .codex/config.toml locally after reviewing.
+# Keep authentication and machine-local secrets outside git.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+allow_login_shell = true
+
+[shell_environment_policy]
+inherit = "all"
