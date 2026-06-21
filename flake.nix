@@ -14,12 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
   outputs = { self, nixpkgs, home-manager, xremap, caelestia-shell, ... } @ inputs:
@@ -36,28 +34,26 @@
           };
 
           modules = [
-
             hostPath
-
 
             {
               nixpkgs.overlays = [
                 (final: prev: {
-                  caelestia-shell = caelestia-shell.packages.${system}.caelestia-shell;
-                  caelestia-cli = caelestia-shell.inputs.caelestia-cli.packages.${system}.caelestia-cli;
+                  caelestia-shell = (builtins.getAttr system caelestia-shell.packages).caelestia-shell;
+                  caelestia-cli = (builtins.getAttr system caelestia-shell.inputs.caelestia-cli.packages).caelestia-cli;
                 })
               ];
             }
-
           ];
         };
     in
     {
       formatter.${system} = pkgs.nixpkgs-fmt;
+
       nixosConfigurations = {
         alpha = mkHost ./hosts/alpha/configuration.nix;
         lenovo = mkHost ./hosts/lenovo/configuration.nix;
+        lenovo-installer = mkHost ./hosts/lenovo/installer-iso.nix;
       };
     };
 }
-
