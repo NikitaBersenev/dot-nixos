@@ -5,6 +5,10 @@ let
 in
 {
   config = lib.mkIf isNiri {
+    # home.nix enables the Hyprland Home Manager module globally; force it off
+    # for hosts that use niri so the installed session is niri-first.
+    wayland.windowManager.hyprland.enable = lib.mkForce false;
+
     xdg.configFile."niri/config.kdl".text = ''
       input {
           keyboard {
