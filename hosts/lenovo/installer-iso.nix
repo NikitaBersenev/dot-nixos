@@ -22,46 +22,46 @@ USAGE
     disk="''${1:-}"
     confirm="''${2:-}"
 
-    if [ "$${disk}" = "" ] || [ "$${confirm}" != "--yes" ]; then
+    if [ "$disk" = "" ] || [ "$confirm" != "--yes" ]; then
       usage
       exit 1
     fi
 
     if [ "$(id -u)" != 0 ]; then
-      echo "Run as root: sudo install-lenovo $${disk} --yes"
+      echo "Run as root: sudo install-lenovo $disk --yes"
       exit 1
     fi
 
-    if [ ! -b "$${disk}" ]; then
-      echo "Target disk does not exist: $${disk}"
+    if [ ! -b "$disk" ]; then
+      echo "Target disk does not exist: $disk"
       exit 1
     fi
 
-    echo "About to ERASE $${disk}."
+    echo "About to ERASE $disk."
     echo "Press Enter to continue, or Ctrl+C to abort."
     read -r _
 
     umount -R /mnt 2>/dev/null || true
     swapoff --all 2>/dev/null || true
 
-    parted --script "$${disk}" -- mklabel gpt
-    parted --script "$${disk}" -- mkpart ESP fat32 1MiB 1025MiB
-    parted --script "$${disk}" -- set 1 esp on
-    parted --script "$${disk}" -- mkpart primary ext4 1025MiB 100%
+    parted --script "$disk" -- mklabel gpt
+    parted --script "$disk" -- mkpart ESP fat32 1MiB 1025MiB
+    parted --script "$disk" -- set 1 esp on
+    parted --script "$disk" -- mkpart primary ext4 1025MiB 100%
 
-    partprobe "$${disk}"
+    partprobe "$disk"
     sleep 2
 
-    if [[ "$${disk}" == *nvme* || "$${disk}" == *mmcblk* ]]; then
-      boot_part="$${disk}p1"
-      root_part="$${disk}p2"
+    if [[ "$disk" == *nvme* || "$disk" == *mmcblk* ]]; then
+      boot_part="$disk"p1
+      root_part="$disk"p2
     else
-      boot_part="$${disk}1"
-      root_part="$${disk}2"
+      boot_part="$disk"1
+      root_part="$disk"2
     fi
 
-    mkfs.fat -F32 -n BOOT "$${boot_part}"
-    mkfs.ext4 -F -L nixos "$${root_part}"
+    mkfs.fat -F32 -n BOOT "$boot_part"
+    mkfs.ext4 -F -L nixos "$root_part"
 
     mount /dev/disk/by-label/nixos /mnt
     mkdir -p /mnt/boot
