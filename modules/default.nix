@@ -6,6 +6,7 @@
     ./desktop/desktop-gnome.nix
     ./desktop/desktop-hyprland.nix
     ./desktop/desktop-kde.nix
+    ./desktop/desktop-niri.nix
 
     # Drivers
     ./driver/driver-nvidia.nix
@@ -26,8 +27,7 @@
 
     # Home-manager integration
     ./home-manager/default.nix
-    
+
     ./desktop/desktop-cinnamon.nix
   ];
 }
-
