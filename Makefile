@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := codex-tunnel
+
 .PHONY: help codex-mcp codex-tunnel codex-tunnel-init codex-tunnel-run codex-tunnel-doctor
 
 ifneq (,$(wildcard .env))
@@ -14,8 +16,11 @@ export TUNNEL_ID
 export CONTROL_PLANE_API_KEY
 
 help:
+	@echo "Default target: make -> codex-tunnel"
+	@echo ""
 	@echo "Targets:"
-	@echo "  make codex-tunnel       Initialize/check the local tunnel when TUNNEL_ID is set, then run it"
+	@echo "  make                    Initialize/check the local tunnel when TUNNEL_ID is set, then run it"
+	@echo "  make codex-tunnel       Same as make"
 	@echo "  make codex-tunnel-init  Initialize/check the local tunnel profile only"
 	@echo "  make codex-tunnel-run   Run an already initialized local tunnel profile"
 	@echo "  make codex-mcp          Run Codex MCP directly from this repository"
