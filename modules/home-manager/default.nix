@@ -28,8 +28,12 @@ in
         inputs.caelestia-shell.homeManagerModules.default
       ];
 
-      users.habe = import ./home.nix;
+      users.habe = {
+        imports = [
+          ./home.nix
+          ./niri.nix
+        ];
+      };
     };
   };
 }
-

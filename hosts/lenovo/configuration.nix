@@ -21,7 +21,8 @@
   };
 
   profiles.user.habe.enable = true;
-  profiles.desktop.kde.enable = true;
+  profiles.desktop.kde.enable = false;
+  profiles.desktop.niri.enable = true;
   # profiles.desktop.gnome.enable = true;
   # profiles.desktop.hyprland.enable = true;
 
@@ -42,4 +43,3 @@
 
   system.stateVersion = "25.05";
 }
-
